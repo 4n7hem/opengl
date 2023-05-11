@@ -7,7 +7,7 @@ from lado import Cube
 from cores import cuboSolucionavel
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG) #talvez eu use isso depois
 
 # Inicialize o cubo
 cubo = np.empty((3, 3, 3), dtype=object).flatten()
@@ -19,14 +19,15 @@ i = 0
 j = 0
 k = 0
 for unidade in cubo:
-    cube_size = 0.3  # size of each cube
-    valor = 9*k+3*i+j#magic number yaaay    
-    if valor <= len(cores)-1:
-        novo_cubo = Cube(position=[i,j,k], colors=cores[valor])
-    else:
-        novo_cubo = Cube(position=[i,j,k], colors=[[0, 0, 0],[0, 0, 0],[0, 0, 0],[0, 0, 0],[0, 0, 0],[0, 0, 0]])
-    novo_cubo.changeSize(size=cube_size)
-    cubo[valor]= novo_cubo    
+    cube_size = 0.3  # o tamanho do cubo
+    valor = 9*k+3*i+j#magic number yaaay        
+    
+    novo_cubo = Cube(position=[i,j,k], colors=cores[valor])  #crie o cubo 
+        
+    novo_cubo.changeSize(size=cube_size) #defina o tamanho do cubo (em escala)    
+    cubo[valor]= novo_cubo
+
+    #iterador(usando isso em python, eu sinto que estou fazendo algo errado)
     if i == 2 and j == 2:
         k += 1
         i = 0
@@ -44,17 +45,17 @@ def main():
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL) #Use o OpenGL
     pygame.display.set_caption('Rubiks Cube')
 
-    glClearColor(1, 1, 1, 0)
-    glEnable(GL_DEPTH_TEST)
-    #glDepthFunc(GL_LESS)
+    glClearColor(1, 1, 1, 0) #fundo branco
+    glEnable(GL_DEPTH_TEST) #isso faz com que não seja visível todos os lados de um cubo.
+                            # caso seja comentado, alguns lados renderizarão o lado de dentro dos cubos por cima do de fora
+
+    glDepthFunc(GL_LESS) #função de comparação de profundidade (estudar mais depois)
 
     glMatrixMode(GL_PROJECTION)  
     gluPerspective(45, (display[0]/display[1]), 0.5, 40.0) #Perspectiva
    
     glMatrixMode(GL_MODELVIEW)
-    glTranslatef(0.0, 0.0, -5) 
-
-    
+    glTranslatef(0.0, 0.0, -5)    
     
     while True:               
 
@@ -63,7 +64,7 @@ def main():
 
         # Draw the cubes and other game objects
         
-        cube_spacing = 0.4  # spacing between cubes
+        cube_spacing = 0.35  # spacing between cubes
         for i in range(3):
             for j in range(3):
                 for k in range(3):

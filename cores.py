@@ -1,6 +1,5 @@
-#Declare as cores de cada unidade de cubo (eu vou precisar declarar isso 27 vezes.)
+#Declare as cores de cada unidade de cubo (eu declarei isso 27 vezes. na mão.)
 
-#A ordem das cores é: frente, tras, encima, embaixo, direita, esquerda.
 #As cores são:  
 vermelho = [1, 0, 0]
 verde=[0, 1, 0]
@@ -11,6 +10,10 @@ amarelo =[1, 1, 0]
 preto = [0,0,0] #(para lados que não são válidos, ou seja, estão na parte de dentro do cubo)
 
 #Serão declaradas as cores na ordem de: linhas, colunas, altura, sendo o cubo mais a esquerda, atrás e superior é o cubo [0,0,0]
+#A ordem das cores no cubo é: frente, tras, encima, embaixo, direita, esquerda.
+#Eu podia fazer um algoritmo que faz um cubo pra mim. Eu podia fazer um algoritmo que resolve o cubo.
+#Mas foge muito do escopo do trabalho. Então eu não preciso.
+
 def cuboSolucionavel():
     #placeholder cores.append([preto,preto,preto,preto,preto,preto]) #cubo [0,0,0]
     cores=[]
