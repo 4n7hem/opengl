@@ -51,10 +51,10 @@ def main():
 
     glDepthFunc(GL_LESS) #função de comparação de profundidade (estudar mais depois)
 
-    glMatrixMode(GL_PROJECTION)  
+    glMatrixMode(GL_PROJECTION) # representação da lente da câmera
     gluPerspective(45, (display[0]/display[1]), 0.5, 40.0) #Perspectiva
    
-    glMatrixMode(GL_MODELVIEW)
+    glMatrixMode(GL_MODELVIEW) # representação da câmera em si
     glTranslatef(0.0, 0.0, -5)    
     
     while True:               
@@ -62,38 +62,40 @@ def main():
         #Limpe sempre a tela
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT) 
 
-        # Draw the cubes and other game objects
-        
-        cube_spacing = 0.35  # spacing between cubes
+        # Renderize a cada frame todos os cubos.       
+        cube_spacing = 0.35  # Espaço entre os cubos
         for i in range(3):
             for j in range(3):
-                for k in range(3):
-                    # Calculate the position of the current cube
+                for k in range(3): #Iterando entre os 27 cubos
+                    # Cálculo da posição dos cubos (para que todos não ocupem o mesmo espaço)
                     x = (i - 1) * (cube_size + cube_spacing)
                     y = (j - 1) * (cube_size + cube_spacing)
                     z = (k - 1) * (cube_size + cube_spacing)
                     
-                    # Draw the faces of the current cube                    
+                    # Desenhe o cubo na tela                   
                     cube = cubo[9*k+3*i+j]
                     cube.changePosition(position=[x,y,z])                    
-                    cube.draw()  
-        for event in pygame.mouse.get_pressed(3):
-            if event:
-                if abs(prev_pos_x - pygame.mouse.get_pos()[0]) == 0:
-                    glRotatef(10, 1, 0, 0)  # Camera view
-                elif abs(prev_pos_y - pygame.mouse.get_pos()[1]) == 0:
-                    glRotatef(10, 0, 1, 0)  # Camera view
-                elif abs(prev_pos_y - pygame.mouse.get_pos()[1]) > 1 and abs(
-                        prev_pos_x - pygame.mouse.get_pos()[0]) > 1:
-                    glRotatef(10, 1, 1, 0)  # Camera view
-            prev_pos_x = pygame.mouse.get_pos()[0]
-            prev_pos_y = pygame.mouse.get_pos()[1]
-        #glRotatef(1, 3, 2, 1)
-        # Swap buffers and handle Pygame events                           
+                    cube.draw()
+       
+        # Troca de buffers e habilidade de fechar a janela                         
         pygame.display.flip()
-        pygame.time.wait(15)
+        pygame.time.wait(10) #limitador da taxa de frames, para que o cubo só não gire na velocidade da luz 
+
+
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        #Controle do cubo com WASD 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_w:
+                    glRotatef(20, 1, 0, 0)  # Camera view
+                if event.key == pygame.K_a:
+                    glRotatef(20, 0, 0, 1) # Camera view
+                if event.key == pygame.K_s:
+                    glRotatef(20, -1, 0, 0) # Camera view
+                if event.key == pygame.K_d:                    
+                    glRotatef(20, 0, 0, -1)  # Camera view
+
+
+            if event.type == pygame.QUIT:                
                 pygame.quit()
                 quit()
 
