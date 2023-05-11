@@ -6,7 +6,7 @@ clock = pygame.time.Clock()
 # Seleciono todos os cubos do bloco escolhido
 # Eu sei que a posição o qual eles devem girar entorno é (0,0,0), ou o cubo central
 # Faça uma função que gire eles na direção desejada.
-
+# Precisa ser uma rotação animada bonitinha, para dar nota
 
 def mov_L(cubo, reverse=False):
     L_side = cubo[:, 0, :]
