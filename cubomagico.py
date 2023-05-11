@@ -76,8 +76,18 @@ def main():
                     cube = cubo[9*k+3*i+j]
                     cube.changePosition(position=[x,y,z])                    
                     cube.draw()  
-
-        glRotatef(1, 3, 2, 1)
+        for event in pygame.mouse.get_pressed(3):
+            if event:
+                if abs(prev_pos_x - pygame.mouse.get_pos()[0]) == 0:
+                    glRotatef(10, 1, 0, 0)  # Camera view
+                elif abs(prev_pos_y - pygame.mouse.get_pos()[1]) == 0:
+                    glRotatef(10, 0, 1, 0)  # Camera view
+                elif abs(prev_pos_y - pygame.mouse.get_pos()[1]) > 1 and abs(
+                        prev_pos_x - pygame.mouse.get_pos()[0]) > 1:
+                    glRotatef(10, 1, 1, 0)  # Camera view
+            prev_pos_x = pygame.mouse.get_pos()[0]
+            prev_pos_y = pygame.mouse.get_pos()[1]
+        #glRotatef(1, 3, 2, 1)
         # Swap buffers and handle Pygame events                           
         pygame.display.flip()
         pygame.time.wait(15)
