@@ -27,7 +27,9 @@ class Cube:
     
     def changeSize(self, size):
         self.vertices = np.multiply(self.vertices, size)
-        
+    
+    def setColor(self, color):
+        self.colors = color        
 
     def draw(self):
         glPushMatrix()

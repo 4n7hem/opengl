@@ -6,6 +6,7 @@ import numpy as np
 from lado import Cube
 from cores import cuboSolucionavel
 import logging
+from rotacoes import *
 
 logging.basicConfig(level=logging.DEBUG) #talvez eu use isso depois
 
@@ -38,6 +39,7 @@ for unidade in cubo:
     else:
         j += 1
 
+cubo = np.reshape(cubo, (3,3,3))   
 
 def main():    
     pygame.init() #Inicialize a tela
@@ -73,7 +75,7 @@ def main():
                     z = (k - 1) * (cube_size + cube_spacing)
                     
                     # Desenhe o cubo na tela                   
-                    cube = cubo[9*k+3*i+j]
+                    cube = cubo[k][i][j] #maluco eu fiz uma lógica muito torta da ordem dos cubos
                     cube.changePosition(position=[x,y,z])                    
                     cube.draw()
        
@@ -86,14 +88,20 @@ def main():
         #Controle do cubo com WASD 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
-                    glRotatef(20, 1, 0, 0)  # Camera view
+                    glRotatef(20, 1, 0, 0)  # Gire para cima
                 if event.key == pygame.K_a:
-                    glRotatef(20, 0, 0, 1) # Camera view
+                    glRotatef(20, 0, 1, 0) # Gire para a direita
                 if event.key == pygame.K_s:
-                    glRotatef(20, -1, 0, 0) # Camera view
+                    glRotatef(20, -1, 0, 0) # Gire para baixo
                 if event.key == pygame.K_d:                    
-                    glRotatef(20, 0, 0, -1)  # Camera view
-
+                    glRotatef(20, 0, -1, 0)  # Gire para a esquerda
+            # Eles giram em relação ao cubo, e não a camera.
+                if event.key == pygame.K_0:
+                    bloco = mov_R(cubo)
+                    for linha in bloco:
+                        for pedaco in linha:
+                            ciano = [[0.0, 1.0, 1.0],[0.0, 1.0, 1.0],[0.0, 1.0, 1.0],[0.0, 1.0, 1.0],[0.0, 1.0, 1.0],[0.0, 1.0, 1.0]]
+                            pedaco.setColor(ciano)
 
             if event.type == pygame.QUIT:                
                 pygame.quit()
@@ -102,11 +110,3 @@ def main():
 main()      
 
         
-
-    
-    
-
-
-    
-
-
