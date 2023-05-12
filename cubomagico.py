@@ -93,6 +93,15 @@ def main():
                 if event.key == pygame.K_8:
                    nov_cubo = mov_F(cubo)
                    cubo = nov_cubo
+                if event.key == pygame.K_7:
+                   nov_cubo = mov_B(cubo)
+                   cubo = nov_cubo
+                if event.key == pygame.K_6:
+                   nov_cubo = mov_D(cubo)
+                   cubo = nov_cubo
+                if event.key == pygame.K_5:
+                   nov_cubo = mov_U(cubo)
+                   cubo = nov_cubo
             if event.type == pygame.QUIT:                
                 pygame.quit()
                 quit()

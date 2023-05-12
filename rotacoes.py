@@ -61,7 +61,7 @@ def mov_L(cubo, reverse=False):
     return cubo
 
 def mov_M(cubo, reverse=False):   
-    M_side = cubo[:, :, 2]
+    M_side = cubo[1, :, :]
 
 #============================================
 
@@ -90,21 +90,85 @@ def mov_F(cubo, reverse=False):
     return cubo
     
 def mov_B(cubo, reverse=False):
-    B_side = cubo[0, :, :]
+    B_sides = cubo[:, :, 0]
+    #O bloco do meio
+    bloco_meio = [0,0,0]    
+
+    for linha in B_sides:        
+        for bloco in linha:
+            bloco.setEixo('z')
+            bloco.setAngulo(10)
+            bloco.setPivo(bloco_meio)
+            #Casos para caso o movimento seja horário ou antihorário
+            if reverse:
+                bloco.setSentido('reverse')
+            else:
+                bloco.setSentido('forward')
+            bloco.girar()
+    #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
+    if reverse:
+        slice_nova = rodarClockwise(B_sides)
+    else:
+        slice_nova = rodarCCW(B_sides)
+    cubo[:, :, 0] = slice_nova
+    return cubo
 
 def mov_S(cubo, reverse=False):   
-    S_side = cubo[1, :, :]
+    S_side = cubo[:, :, 1]
 
 #============================================
 
 def mov_D(cubo, reverse=False):
-    D_side = cubo[:, :, 0]
+    D_sides = cubo[:, 0, :]    
+    #O bloco do meio
+    bloco_meio = [0,0,0]   
+
+    for linha in D_sides:        
+        for bloco in linha:
+            bloco.setEixo('y')
+            bloco.setAngulo(10)
+            bloco.setPivo(bloco_meio)
+            #Casos para caso o movimento seja horário ou antihorário
+            if reverse:
+                bloco.setSentido('reverse')
+            else:
+                bloco.setSentido('forward')
+            bloco.girar()
+    #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
+    if reverse:
+        slice_nova = rodarClockwise(D_sides)
+    else:
+        slice_nova = rodarCCW(D_sides)
+    cubo[:, 0, :] = slice_nova
+    return cubo
 
 def mov_U(cubo, reverse=False):   
-    U_side = cubo[:, :, 2]
+    U_sides = cubo[:, 2, :]
+    
+    #O bloco do meio
+    bloco_meio = [0,0,0]    
+
+    for linha in U_sides:        
+        for bloco in linha:
+            bloco.setEixo('y')
+            bloco.setAngulo(10)
+            bloco.setPivo(bloco_meio)
+            #Casos para caso o movimento seja horário ou antihorário
+            if reverse:
+                bloco.setSentido('reverse')
+            else:
+                bloco.setSentido('forward')
+            bloco.girar()
+    #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
+    if reverse:
+        slice_nova = rodarClockwise(U_sides)
+    else:
+        slice_nova = rodarCCW(U_sides)
+    cubo[:, 2, :] = slice_nova
+    return cubo
 
 def mov_E(cubo, reverse=False):   
-    E_side = cubo[:, :, 1]
+    E_side = cubo[:, 1, :]
 
 
 

@@ -67,22 +67,24 @@ def trocaVertices(cubo):
                     #Gire todos os vertices no eixo X antihorário:
                     cubo.vertices[[frente, embaixo, tras, emcima]] = cubo.vertices[[embaixo, tras, emcima, frente]]
                 case 'y':
-                    pass
-                    #trocar os vértices
+                    #Gire todos os vertices no eixo Y antihorário:
+                    cubo.vertices[[frente, direita, tras, esquerda]] = cubo.vertices[[direita, tras, esquerda, frente]]                    
                 case 'z':
                     pass
                     #Gire todos os vertices no eixo Z antihorário
                     cubo.vertices[[esquerda, emcima, direita, embaixo]] = cubo.vertices[[embaixo, esquerda, emcima, direita]]
+                    
         case 'reverse': #Caso o movimento seja reverso
             match cubo.eixo:        
                 case 'x':
                     #Gire todos os vertices no eixo X horário:
                     cubo.vertices[[frente, embaixo, tras, emcima]] = cubo.vertices[[emcima, frente, embaixo, tras]]
                 case 'y':
-                    pass
+                    #Gire todos os vertices no eixo Y horário
+                    cubo.vertices[[frente, direita, tras, esquerda]] = cubo.vertices[[esquerda, tras, direita, frente]]
                     #trocar os vértices
                 case 'z':
-                    #Gire todos os vertices no eixo Z horário
+                    #Gire todos os vertices no eixo Z horário                    
                     cubo.vertices[[esquerda, emcima, direita, embaixo]] = cubo.vertices[[emcima, direita, embaixo, esquerda]]
 
     
