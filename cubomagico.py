@@ -10,37 +10,7 @@ from rotacoes import *
 
 logging.basicConfig(level=logging.DEBUG) #talvez eu use isso depois
   
-def main():
-    # Inicialize o cubo
-    cubo = np.empty((3, 3, 3), dtype=object).flatten()
-    cores = cuboSolucionavel()
-
-
-    #Crie os cubos já pré-definidos
-    i = 0
-    j = 0
-    k = 0
-    for unidade in cubo:
-        cube_size = 0.3  # o tamanho do cubo
-        valor = 9*k+3*i+j#magic number yaaay        
-        
-        novo_cubo = Cube(position=[i,j,k], colors=cores[valor])  #crie o cubo 
-            
-        novo_cubo.changeSize(size=cube_size) #defina o tamanho do cubo (em escala)    
-        cubo[valor]= novo_cubo
-
-        #iterador(usando isso em python, eu sinto que estou fazendo algo errado)
-        if i == 2 and j == 2:
-            k += 1
-            i = 0
-            j = 0
-        elif j == 2:
-            j = 0
-            i += 1
-        else:
-            j += 1
-
-    cubo = np.reshape(cubo, (3,3,3))     
+def main():         
     pygame.init() #Inicialize a tela    
     display = (800,600) # Tamanho da janela
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL) #Use o OpenGL
@@ -58,7 +28,20 @@ def main():
     glMatrixMode(GL_MODELVIEW) # representação da câmera em si
     glTranslatef(0.0, 0.0, -5)
 
-    #Inicialize os cubos
+    # Inicialize o cubo
+    cubo = np.empty((3, 3, 3), dtype=object)
+    cores = cuboSolucionavel()
+    cube_size = 0.3  # o tamanho do cubo
+
+    #Crie os cubos já pré-definidos
+    for i in range(3):
+        for j in range(3):
+            for k in range(3):
+                novo_cubo = Cube(position=[i,j,k], colors=cores[9*k+3*i+j])  #crie o cubo 
+                novo_cubo.changeSize(size=cube_size) #defina o tamanho do cubo (em escala)
+                cubo[i][j][k] = novo_cubo      
+
+    #Inicialize a posição dos cubos
     cube_spacing = 0.35  # Espaço entre os cubos
     for i in range(3):
         for j in range(3):
@@ -69,7 +52,7 @@ def main():
                 z = (k - 1) * (cube_size + cube_spacing)
                     
                 # Troque as coordenadas do cubo                   
-                cube = cubo[k][i][j] #maluco eu fiz uma lógica muito torta da ordem dos cubos
+                cube = cubo[i][j][k]
                 cube.changePosition(position=[x,y,z])    
     
     while True:               
