@@ -30,10 +30,11 @@ def mov_R(cubo, reverse=False):
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
     if reverse:
-        slice_nova = rodarClockwise(R_sides)
+        slice_nova = rodarCCW(R_sides)
     else:
-        slice_nova =rodarCCW(R_sides)
+        slice_nova =rodarClockwise(R_sides)
     cubo[:, 2, :] = slice_nova
+    return cubo
 
 def mov_L(cubo, reverse=False):
     L_sides = cubo[:, 0, :]
@@ -51,11 +52,13 @@ def mov_L(cubo, reverse=False):
                 bloco.setSentido('forward')
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
+    # IMPORTANTE: O SENTIDO DA ROTAÇÃO INVERTE EM LADOS OPOSTOS
     if reverse:
         slice_nova = rodarClockwise(L_sides)
     else:
-        slice_nova =rodarCCW(L_sides)
+        slice_nova = rodarCCW(L_sides)
     cubo[:, 0, :] = slice_nova
+    return cubo
 
 def mov_M(cubo, reverse=False):   
     M_side = cubo[:, :, 2]
@@ -82,8 +85,9 @@ def mov_F(cubo, reverse=False):
     if reverse:
         slice_nova = rodarClockwise(F_sides)
     else:
-        slice_nova =rodarCCW(F_sides)
+        slice_nova = rodarCCW(F_sides)
     cubo[2, :, :] = slice_nova
+    return cubo
 
 def mov_B(cubo, reverse=False):
     B_side = cubo[0, :, :]

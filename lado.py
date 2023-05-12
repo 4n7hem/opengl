@@ -67,6 +67,10 @@ class Cube:
     
     def girar(self):
         self.girando = True
+    
+    def debug(self):
+        print("Posição:" + str(self.position))
+        print("Eixo:" + self.eixo)
 
     def draw(self):
         glPushMatrix()
@@ -91,6 +95,7 @@ class Cube:
                 self.girando = False #pare de girar
                 self.angulo = 0 #reinicie os valores
                 self.adicional = 0 
+                self.eixo = None
                       
         glBegin(GL_QUADS)
         for i in range(6):

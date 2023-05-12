@@ -9,41 +9,40 @@ import logging
 from rotacoes import *
 
 logging.basicConfig(level=logging.DEBUG) #talvez eu use isso depois
+  
+def main():
+    # Inicialize o cubo
+    cubo = np.empty((3, 3, 3), dtype=object).flatten()
+    cores = cuboSolucionavel()
 
-# Inicialize o cubo
-cubo = np.empty((3, 3, 3), dtype=object).flatten()
-cores = cuboSolucionavel()
 
-
-#Crie os cubos já pré-definidos
-i = 0
-j = 0
-k = 0
-for unidade in cubo:
-    cube_size = 0.3  # o tamanho do cubo
-    valor = 9*k+3*i+j#magic number yaaay        
-    
-    novo_cubo = Cube(position=[i,j,k], colors=cores[valor])  #crie o cubo 
+    #Crie os cubos já pré-definidos
+    i = 0
+    j = 0
+    k = 0
+    for unidade in cubo:
+        cube_size = 0.3  # o tamanho do cubo
+        valor = 9*k+3*i+j#magic number yaaay        
         
-    novo_cubo.changeSize(size=cube_size) #defina o tamanho do cubo (em escala)    
-    cubo[valor]= novo_cubo
+        novo_cubo = Cube(position=[i,j,k], colors=cores[valor])  #crie o cubo 
+            
+        novo_cubo.changeSize(size=cube_size) #defina o tamanho do cubo (em escala)    
+        cubo[valor]= novo_cubo
 
-    #iterador(usando isso em python, eu sinto que estou fazendo algo errado)
-    if i == 2 and j == 2:
-        k += 1
-        i = 0
-        j = 0
-    elif j == 2:
-        j = 0
-        i += 1
-    else:
-        j += 1
+        #iterador(usando isso em python, eu sinto que estou fazendo algo errado)
+        if i == 2 and j == 2:
+            k += 1
+            i = 0
+            j = 0
+        elif j == 2:
+            j = 0
+            i += 1
+        else:
+            j += 1
 
-cubo = np.reshape(cubo, (3,3,3))   
-
-def main():    
-    pygame.init() #Inicialize a tela
-    display = (1280,732) # Tamanho da janela
+    cubo = np.reshape(cubo, (3,3,3))     
+    pygame.init() #Inicialize a tela    
+    display = (800,600) # Tamanho da janela
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL) #Use o OpenGL
     pygame.display.set_caption('Rubiks Cube')
 
@@ -103,11 +102,14 @@ def main():
                     glRotatef(15, 0, -1, 0)  # Gire para a esquerda
             # Eles giram em relação ao cubo, e não a camera.
                 if event.key == pygame.K_0:
-                    mov_R(cubo)
+                    nov_cubo = mov_R(cubo)
+                    cubo = nov_cubo
                 if event.key == pygame.K_9:
-                    mov_L(cubo)
+                    nov_cubo = mov_L(cubo)
+                    cubo = nov_cubo
                 if event.key == pygame.K_8:
-                    mov_F(cubo)
+                   nov_cubo = mov_F(cubo)
+                   cubo = nov_cubo
             if event.type == pygame.QUIT:                
                 pygame.quit()
                 quit()
