@@ -9,6 +9,7 @@ clock = pygame.time.Clock()
 # Faça uma função que gire eles na direção desejada.
 # Precisa ser uma rotação animada bonitinha, para dar nota
 # Após isso, troque os blocos no objeto do cubo para representar sua posição atual
+# Eu vou comentar somente o mov_R, mas todos os outros movimentos seguirão a exata mesma lógica
 
 def mov_R(cubo, reverse=False):
     #Selecione todos os cubos relevantes ao movimento    
@@ -28,10 +29,11 @@ def mov_R(cubo, reverse=False):
                 bloco.setSentido('forward')
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
-            #if reverse:
-                #rodarClockwise(R_sides)
-            #else:
-                #rodarCCW(R_sides)
+    if reverse:
+        slice_nova = rodarClockwise(R_sides)
+    else:
+        slice_nova =rodarCCW(R_sides)
+    cubo[:, 2, :] = slice_nova
 
 def mov_L(cubo, reverse=False):
     L_sides = cubo[:, 0, :]
@@ -48,7 +50,12 @@ def mov_L(cubo, reverse=False):
             else:
                 bloco.setSentido('forward')
             bloco.girar()
-
+    #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
+    if reverse:
+        slice_nova = rodarClockwise(L_sides)
+    else:
+        slice_nova =rodarCCW(L_sides)
+    cubo[:, 0, :] = slice_nova
 
 def mov_M(cubo, reverse=False):   
     M_side = cubo[:, :, 2]
@@ -71,7 +78,12 @@ def mov_F(cubo, reverse=False):
             else:
                 bloco.setSentido('forward')
             bloco.girar()
-    
+    #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
+    if reverse:
+        slice_nova = rodarClockwise(F_sides)
+    else:
+        slice_nova =rodarCCW(F_sides)
+    cubo[2, :, :] = slice_nova
 
 def mov_B(cubo, reverse=False):
     B_side = cubo[0, :, :]

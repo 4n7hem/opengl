@@ -1,5 +1,10 @@
 import numpy as np
 
+# O que a rotação horária deveria fazer:
+#  1  2  3          7  4  1
+#  4  5  6   - >    8  5  2
+#  7  8  9          9  6  3
+
 def rodarClockwise(slice):
     temp = slice.copy()
 
@@ -9,6 +14,7 @@ def rodarClockwise(slice):
             new_j = i
             temp[new_i, new_j] = slice[i,j]
     slice[:] = temp
+    return slice
 
 def rodarCCW(slice):
     #roda o negócio 3 vezes horário, o que vira antihorário
@@ -21,3 +27,4 @@ def rodarCCW(slice):
                 new_j = i
                 temp[new_i, new_j] = slice[i,j]
         slice[:] = temp
+    return slice
