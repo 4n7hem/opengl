@@ -3,7 +3,7 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import numpy as np
-from lado import Cube
+from cubiculo import Cube
 from cores import cuboSolucionavel
 import logging
 from rotacoes import *
