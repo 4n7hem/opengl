@@ -104,6 +104,10 @@ def main():
             # Eles giram em relação ao cubo, e não a camera.
                 if event.key == pygame.K_0:
                     mov_R(cubo)
+                if event.key == pygame.K_9:
+                    mov_L(cubo)
+                if event.key == pygame.K_8:
+                    mov_F(cubo)
             if event.type == pygame.QUIT:                
                 pygame.quit()
                 quit()

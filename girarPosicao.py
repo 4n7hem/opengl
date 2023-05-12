@@ -49,6 +49,40 @@ def rodar(cubo, pivo, angulo, eixo):
         [0,0,0,1]
     ])
 
+    #Isso ira girar os cubos ao redor do cubo pivô
     trans_mat = np.dot(np.dot(trad_matriz, rotacao), trad_back)
     cubo.changePosition(position=np.dot(trans_mat, np.hstack((cubo.getPosition(),1)))[:3])
-    #cubo.changeVertices(np.dot(trans_mat, np.hstack(cubo.getVertices(), np.ones(8,1), axis=1).T)[:3].T)
+
+def trocaVertices(cubo):
+    frente = [0,1,2,3]
+    tras = [4,5,6,7]
+    emcima = [8,9,10,11]
+    embaixo = [12,13,14,15]
+    direita = [16,17,18,19]
+    esquerda = [20,21,22,23]
+    match cubo.sentido:
+        case 'forward': #Caso o movimento seja normal
+            match cubo.eixo:        
+                case 'x':
+                    #Gire todos os vertices no eixo X antihorário:
+                    cubo.vertices[[frente, embaixo, tras, emcima]] = cubo.vertices[[embaixo, tras, emcima, frente]]
+                case 'y':
+                    pass
+                    #trocar os vértices
+                case 'z':
+                    pass
+                    #Gire todos os vertices no eixo Z antihorário
+                    cubo.vertices[[esquerda, emcima, direita, embaixo]] = cubo.vertices[[embaixo, esquerda, emcima, direita]]
+        case 'reverse': #Caso o movimento seja reverso
+            match cubo.eixo:        
+                case 'x':
+                    #Gire todos os vertices no eixo X horário:
+                    cubo.vertices[[frente, embaixo, tras, emcima]] = cubo.vertices[[emcima, frente, embaixo, tras]]
+                case 'y':
+                    pass
+                    #trocar os vértices
+                case 'z':
+                    #Gire todos os vertices no eixo Z horário
+                    cubo.vertices[[esquerda, emcima, direita, embaixo]] = cubo.vertices[[emcima, direita, embaixo, esquerda]]
+
+    

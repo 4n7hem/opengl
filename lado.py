@@ -5,12 +5,13 @@ import pygame
 from pygame.locals import *
 from random import randint
 import math
-from girarPosicao import rodar
+from girarPosicao import rodar, trocaVertices
 
 class Cube:
     def __init__(self, position, colors):
         self.position = position
         self.colors = colors
+        self.sentido = None
         self.girando = False
         self.eixo = None
         self.pivot = None
@@ -61,37 +62,36 @@ class Cube:
     def setEixo(self, eixo):
         self.eixo = eixo
     
+    def setSentido(self, sentido):
+        self.sentido = sentido
+    
     def girar(self):
         self.girando = True
 
     def draw(self):
         glPushMatrix()
         glTranslatef(self.position[0], self.position[1], self.position[2])
+        #Caso o cubo esteja girando, aplicar transformações de rotação a cada frame
         if self.girando:
             self.angulo = self.angulo + self.adicional
+            #Esse match é uma animação que gira os cubos em torno de si, deixa mais suave
             match self.eixo:
                 case 'x':
                     glRotate(self.angulo, 1, 0, 0)
                 case 'y':
                     glRotate(self.angulo, 0, 1, 0)
                 case 'z':
-                    glRotate(self.angulo, 0, 0, 1)            
+                    glRotate(self.angulo, 0, 0, 1)
+            #O que realmente muda as coordenadas do cubo no plano            
             rodar(self,self.pivot, self.adicional, self.eixo)            
             pygame.time.wait(10)
-            if self.angulo >= 90:                
-                self.girando = False
-                self.angulo = 0
+            #Quando o movimento tiver alcançado 90 graus
+            if self.angulo >= 90:  
+                trocaVertices(self)              
+                self.girando = False #pare de girar
+                self.angulo = 0 #reinicie os valores
                 self.adicional = 0 
-                match self.eixo:
-                    case 'x':
-                        pass
-                        #trocar os vértices
-                    case 'y':
-                        pass
-                        #trocar os vértices
-                    case 'z':
-                        pass
-                        #trocar os vértices      
+                      
         glBegin(GL_QUADS)
         for i in range(6):
             glColor3f(*self.colors[i])
