@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 
 def mov_R(cubo, reverse=False):
     #Selecione todos os cubos relevantes ao movimento    
-    R_sides = cubo[:, 2, :]
+    R_sides = cubo[2, :, :]
     #O bloco do meio
     bloco_meio = [0,0,0]    
 
@@ -33,11 +33,11 @@ def mov_R(cubo, reverse=False):
         slice_nova = rodarCCW(R_sides)
     else:
         slice_nova =rodarClockwise(R_sides)
-    cubo[:, 2, :] = slice_nova
+    cubo[2, :, :] = slice_nova
     return cubo
 
 def mov_L(cubo, reverse=False):
-    L_sides = cubo[:, 0, :]
+    L_sides = cubo[0, :, :]
 
     bloco_meio = [0,0,0]
 
@@ -57,7 +57,7 @@ def mov_L(cubo, reverse=False):
         slice_nova = rodarClockwise(L_sides)
     else:
         slice_nova = rodarCCW(L_sides)
-    cubo[:, 0, :] = slice_nova
+    cubo[0, :, :] = slice_nova
     return cubo
 
 def mov_M(cubo, reverse=False):   
@@ -66,7 +66,7 @@ def mov_M(cubo, reverse=False):
 #============================================
 
 def mov_F(cubo, reverse=False):
-    F_sides = cubo[2, :, :]
+    F_sides = cubo[:, :, 2]
     #O bloco do meio
     bloco_meio = [0,0,0]    
 
@@ -86,9 +86,9 @@ def mov_F(cubo, reverse=False):
         slice_nova = rodarClockwise(F_sides)
     else:
         slice_nova = rodarCCW(F_sides)
-    cubo[2, :, :] = slice_nova
+    cubo[:, :, 2] = slice_nova
     return cubo
-
+    
 def mov_B(cubo, reverse=False):
     B_side = cubo[0, :, :]
 
