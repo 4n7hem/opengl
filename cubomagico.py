@@ -57,26 +57,32 @@ def main():
     gluPerspective(45, (display[0]/display[1]), 0.5, 40.0) #Perspectiva
    
     glMatrixMode(GL_MODELVIEW) # representação da câmera em si
-    glTranslatef(0.0, 0.0, -5)    
+    glTranslatef(0.0, 0.0, -5)
+
+    #Inicialize os cubos
+    cube_spacing = 0.35  # Espaço entre os cubos
+    for i in range(3):
+        for j in range(3):
+            for k in range(3): #Iterando entre os 27 cubos
+                # Cálculo da posição dos cubos (para que todos não ocupem o mesmo espaço)
+                x = (i - 1) * (cube_size + cube_spacing)
+                y = (j - 1) * (cube_size + cube_spacing)
+                z = (k - 1) * (cube_size + cube_spacing)
+                    
+                # Troque as coordenadas do cubo                   
+                cube = cubo[k][i][j] #maluco eu fiz uma lógica muito torta da ordem dos cubos
+                cube.changePosition(position=[x,y,z])    
     
     while True:               
 
         #Limpe sempre a tela
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT) 
 
-        # Renderize a cada frame todos os cubos.       
-        cube_spacing = 0.35  # Espaço entre os cubos
+        # Renderize a cada frame todos os cubos.
         for i in range(3):
             for j in range(3):
                 for k in range(3): #Iterando entre os 27 cubos
-                    # Cálculo da posição dos cubos (para que todos não ocupem o mesmo espaço)
-                    x = (i - 1) * (cube_size + cube_spacing)
-                    y = (j - 1) * (cube_size + cube_spacing)
-                    z = (k - 1) * (cube_size + cube_spacing)
-                    
-                    # Desenhe o cubo na tela                   
-                    cube = cubo[k][i][j] #maluco eu fiz uma lógica muito torta da ordem dos cubos
-                    cube.changePosition(position=[x,y,z])                    
+                    cube = cubo[k][i][j]                                  
                     cube.draw()
        
         # Troca de buffers e habilidade de fechar a janela                         
@@ -88,21 +94,16 @@ def main():
         #Controle do cubo com WASD 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
-                    glRotatef(20, 1, 0, 0)  # Gire para cima
+                    glRotatef(15, 1, 0, 0)  # Gire para cima
                 if event.key == pygame.K_a:
-                    glRotatef(20, 0, 1, 0) # Gire para a direita
+                    glRotatef(15, 0, 1, 0) # Gire para a direita
                 if event.key == pygame.K_s:
-                    glRotatef(20, -1, 0, 0) # Gire para baixo
+                    glRotatef(15, -1, 0, 0) # Gire para baixo
                 if event.key == pygame.K_d:                    
-                    glRotatef(20, 0, -1, 0)  # Gire para a esquerda
+                    glRotatef(15, 0, -1, 0)  # Gire para a esquerda
             # Eles giram em relação ao cubo, e não a camera.
                 if event.key == pygame.K_0:
-                    bloco = mov_R(cubo)
-                    for linha in bloco:
-                        for pedaco in linha:
-                            ciano = [[0.0, 1.0, 1.0],[0.0, 1.0, 1.0],[0.0, 1.0, 1.0],[0.0, 1.0, 1.0],[0.0, 1.0, 1.0],[0.0, 1.0, 1.0]]
-                            pedaco.setColor(ciano)
-
+                    mov_R(cubo)
             if event.type == pygame.QUIT:                
                 pygame.quit()
                 quit()
