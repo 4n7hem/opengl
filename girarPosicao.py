@@ -54,37 +54,37 @@ def rodar(cubo, pivo, angulo, eixo):
     cubo.changePosition(position=np.dot(trans_mat, np.hstack((cubo.getPosition(),1)))[:3])
 
 def trocaVertices(cubo):
-    frente = [0,1,2,3]
-    tras = [4,5,6,7]
-    emcima = [8,9,10,11]
-    embaixo = [12,13,14,15]
-    direita = [16,17,18,19]
-    esquerda = [20,21,22,23]
+    frente = 0
+    tras = 1
+    emcima = 2
+    embaixo = 3
+    direita = 4
+    esquerda = 5
     match cubo.sentido:
         case 'forward': #Caso o movimento seja normal
             match cubo.eixo:        
                 case 'x':
-                    #Gire todos os vertices no eixo X antihorário:
-                    cubo.vertices[[frente, embaixo, tras, emcima]] = cubo.vertices[[embaixo, tras, emcima, frente]]
+                    #Gire todos os colors no eixo X antihorário:
+                    cubo.colors[[embaixo, tras, emcima, frente]] = cubo.colors[[frente, embaixo, tras, emcima]] 
                 case 'y':
-                    #Gire todos os vertices no eixo Y antihorário:
-                    cubo.vertices[[frente, direita, tras, esquerda]] = cubo.vertices[[direita, tras, esquerda, frente]]                    
+                    #Gire todos os colors no eixo Y antihorário:
+                    cubo.colors[[direita, tras, esquerda, frente]] = cubo.colors[[frente, direita, tras, esquerda]]                     
                 case 'z':
                     pass
-                    #Gire todos os vertices no eixo Z antihorário
-                    cubo.vertices[[esquerda, emcima, direita, embaixo]] = cubo.vertices[[embaixo, esquerda, emcima, direita]]
+                    #Gire todos os colors no eixo Z antihorário
+                    cubo.colors[[embaixo, esquerda, emcima, direita]] = cubo.colors[[esquerda, emcima, direita, embaixo]]
                     
         case 'reverse': #Caso o movimento seja reverso
             match cubo.eixo:        
                 case 'x':
-                    #Gire todos os vertices no eixo X horário:
-                    cubo.vertices[[frente, embaixo, tras, emcima]] = cubo.vertices[[emcima, frente, embaixo, tras]]
+                    #Gire todos os colors no eixo X horário:
+                    cubo.colors[[emcima, frente, embaixo, tras]] = cubo.colors[[frente, embaixo, tras, emcima]]
                 case 'y':
-                    #Gire todos os vertices no eixo Y horário
-                    cubo.vertices[[frente, direita, tras, esquerda]] = cubo.vertices[[esquerda, tras, direita, frente]]
+                    #Gire todos os colors no eixo Y horário
+                    cubo.colors[[esquerda, tras, direita, frente]] = cubo.colors[[frente, direita, tras, esquerda]]
                     #trocar os vértices
                 case 'z':
-                    #Gire todos os vertices no eixo Z horário                    
-                    cubo.vertices[[esquerda, emcima, direita, embaixo]] = cubo.vertices[[emcima, direita, embaixo, esquerda]]
+                    #Gire todos os colors no eixo Z horário                    
+                    cubo.colors[[emcima, direita, embaixo, esquerda]]= cubo.colors[[esquerda, emcima, direita, embaixo]] 
 
     

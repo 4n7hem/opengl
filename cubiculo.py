@@ -10,7 +10,7 @@ from girarPosicao import rodar, trocaVertices
 class Cube:
     def __init__(self, position, colors):
         self.position = position
-        self.colors = colors
+        self.colors = np.array(colors)
         self.sentido = None
         self.girando = False
         self.eixo = None
