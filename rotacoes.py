@@ -29,7 +29,7 @@ def mov_R(cubo, reverse=False):
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
     if reverse:
-        slice_nova = rodarCCW(R_sides)
+        slice_nova = rodarCCWreverso(R_sides)
     else:
         slice_nova = rodarClockwise(R_sides)
     cubo[2, :, :] = slice_nova
@@ -53,7 +53,7 @@ def mov_L(cubo, reverse=False):
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
     # IMPORTANTE: O SENTIDO DA ROTAÇÃO INVERTE EM LADOS OPOSTOS
     if reverse:
-        slice_nova = rodarClockwise(L_sides)
+        slice_nova = rodarClockwisereverso(L_sides)
     else:
         slice_nova = rodarCCW(L_sides)
     cubo[0, :, :] = slice_nova
@@ -82,7 +82,7 @@ def mov_F(cubo, reverse=False):
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
     if reverse:
-        slice_nova = rodarClockwise(F_sides)
+        slice_nova = rodarClockwisereverso(F_sides)
     else:
         slice_nova = rodarCCW(F_sides)
     cubo[:, :, 2] = slice_nova
@@ -106,7 +106,7 @@ def mov_B(cubo, reverse=False):
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
     if reverse:
-        slice_nova = rodarClockwise(B_sides)
+        slice_nova = rodarClockwisereverso(B_sides)
     else:
         slice_nova = rodarCCW(B_sides)
     cubo[:, :, 0] = slice_nova
@@ -135,7 +135,7 @@ def mov_D(cubo, reverse=False):
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
     if reverse:
-        slice_nova = rodarClockwise(D_sides, caso_y=True)
+        slice_nova = rodarClockwisereverso(D_sides, caso_y=True)
     else:        
         slice_nova = rodarCCW(D_sides, caso_y=True)
     cubo[:, 0, :] = slice_nova
@@ -160,7 +160,7 @@ def mov_U(cubo, reverse=False):
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
     if reverse:
-        slice_nova = rodarCCW(U_sides, caso_y=True)
+        slice_nova = rodarCCWreverso(U_sides, caso_y=True)
     else:
         slice_nova = rodarClockwise(U_sides, caso_y=True)
     cubo[:, 2, :] = slice_nova

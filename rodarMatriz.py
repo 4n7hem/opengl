@@ -37,3 +37,34 @@ def rodarCCW(slice, caso_y=False):
     slice[:] = temp
     
     return slice
+
+def rodarClockwisereverso(slice, caso_y=False):
+    temp = slice.copy()
+
+    for i in range(3):
+        for j in range(3):
+            if caso_y:
+                new_i = -j + 2  # Reverse the index calculation
+                new_j = i
+            else:
+                new_i = j
+                new_j = -i + 2  # Reverse the index calculation
+            temp[new_i, new_j] = slice[i, j]
+    slice[:] = temp
+    return slice
+
+
+def rodarCCWreverso(slice, caso_y=False):
+    temp = slice.copy()
+    for nada in range(3):
+        for i in range(3):
+            for j in range(3):
+                if caso_y:
+                    new_i = -j + 2  # Reverse the index calculation
+                    new_j = i
+                else:
+                    new_i = j
+                    new_j = -i + 2  # Reverse the index calculation
+                temp[new_i, new_j] = slice[i, j]
+    slice[:] = temp
+    return slice

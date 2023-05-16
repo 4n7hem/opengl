@@ -56,7 +56,7 @@ def rodar(cubo, pivo, angulo, eixo, reverse=False):
     trans_mat = np.dot(np.dot(trad_matriz, rotacao), trad_back)
     cubo.changePosition(position=np.dot(trans_mat, np.hstack((cubo.getPosition(),1)))[:3])
 
-def trocaVertices(cubo):
+def trocaVertices(cubo):    
     frente = 0
     tras = 1
     emcima = 2
@@ -84,7 +84,7 @@ def trocaVertices(cubo):
                     cubo.colors[[emcima, frente, embaixo, tras]] = cubo.colors[[frente, embaixo, tras, emcima]]
                 case 'y':
                     #Gire todos os colors no eixo Y horário
-                    cubo.colors[[esquerda, tras, direita, frente]] = cubo.colors[[frente, direita, tras, esquerda]]
+                     cubo.colors[[frente, esquerda, tras, direita]] = cubo.colors[[direita, frente, esquerda, tras]]
                     #trocar os vértices
                 case 'z':
                     #Gire todos os colors no eixo Z horário                    
