@@ -42,7 +42,7 @@ def main():
                 cubo[i][j][k] = novo_cubo      
 
     #Inicialize a posição dos cubos
-    cube_spacing = 0.35  # Espaço entre os cubos
+    cube_spacing = 0.33  # Espaço entre os cubos
     for i in range(3):
         for j in range(3):
             for k in range(3): #Iterando entre os 27 cubos
@@ -69,12 +69,12 @@ def main():
        
         # Troca de buffers e habilidade de fechar a janela                         
         pygame.display.flip()
-        pygame.time.wait(10) #limitador da taxa de frames, para que o cubo só não gire na velocidade da luz 
+        pygame.time.wait(2) #limitador da taxa de frames, para que o cubo só não gire na velocidade da luz 
 
 
         for event in pygame.event.get():
         #Controle do cubo com WASD 
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN: 
                 if event.key == pygame.K_w:
                     glRotatef(15, 1, 0, 0)  # Gire para cima
                 if event.key == pygame.K_a:

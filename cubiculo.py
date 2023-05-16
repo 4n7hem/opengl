@@ -97,7 +97,7 @@ class Cube:
                 self.adicional = 0 
                 self.eixo = None
                       
-        glBegin(GL_QUADS)
+        glBegin(GL_QUADS) #Isso desenha as cores e vértices
         for i in range(6):
             glColor3f(*self.colors[i])
             for j in range(4):

@@ -15,8 +15,7 @@ def mov_R(cubo, reverse=False):
     #Selecione todos os cubos relevantes ao movimento    
     R_sides = cubo[2, :, :]
     #O bloco do meio
-    bloco_meio = [0,0,0]    
-
+    bloco_meio = [0,0,0] 
     for linha in R_sides:        
         for bloco in linha:
             bloco.setEixo('x')
@@ -32,7 +31,7 @@ def mov_R(cubo, reverse=False):
     if reverse:
         slice_nova = rodarCCW(R_sides)
     else:
-        slice_nova =rodarClockwise(R_sides)
+        slice_nova = rodarClockwise(R_sides)
     cubo[2, :, :] = slice_nova
     return cubo
 
@@ -119,7 +118,7 @@ def mov_S(cubo, reverse=False):
 #============================================
 
 def mov_D(cubo, reverse=False):
-    D_sides = cubo[:, 0, :]    
+    D_sides = cubo[:, 0, :]
     #O bloco do meio
     bloco_meio = [0,0,0]   
 
@@ -136,9 +135,9 @@ def mov_D(cubo, reverse=False):
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
     if reverse:
-        slice_nova = rodarClockwise(D_sides)
-    else:
-        slice_nova = rodarCCW(D_sides)
+        slice_nova = rodarClockwise(D_sides, caso_y=True)
+    else:        
+        slice_nova = rodarCCW(D_sides, caso_y=True)
     cubo[:, 0, :] = slice_nova
     return cubo
 
@@ -161,9 +160,9 @@ def mov_U(cubo, reverse=False):
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
     if reverse:
-        slice_nova = rodarClockwise(U_sides)
+        slice_nova = rodarCCW(U_sides, caso_y=True)
     else:
-        slice_nova = rodarCCW(U_sides)
+        slice_nova = rodarClockwise(U_sides, caso_y=True)
     cubo[:, 2, :] = slice_nova
     return cubo
 
