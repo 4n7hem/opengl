@@ -19,6 +19,7 @@ def rodarClockwise(slice, caso_y=False):
     slice = temp
     return slice
 
+
 def rodarCCW(slice, caso_y=False):
     #roda o negócio 3 vezes horário, o que vira antihorário
     #desculpa, eu sou burro, acontece 
