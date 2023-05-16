@@ -7,6 +7,7 @@ from cubiculo import Cube
 from cores import cuboSolucionavel
 import logging
 from rotacoes import *
+from solucionar import resposta
 
 logging.basicConfig(level=logging.DEBUG) #talvez eu use isso depois
   
@@ -27,6 +28,12 @@ def main():
    
     glMatrixMode(GL_MODELVIEW) # representação da câmera em si
     glTranslatef(0.0, 0.0, -5)
+
+    glLightfv(GL_LIGHT0, GL_POSITION, (5,5,5,0)) #Posição da luz
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, (1,1,1,0)) #Cor da luz
+
+    glEnable(GL_NORMALIZE) #Normalização das faces
+    glShadeModel(GL_SMOOTH) #Smooth shading (sei o que faz não)
 
     # Inicialize o cubo
     cubo = np.empty((3, 3, 3), dtype=object)
@@ -53,12 +60,19 @@ def main():
                     
                 # Troque as coordenadas do cubo                   
                 cube = cubo[i][j][k]
-                cube.changePosition(position=[x,y,z])    
+                cube.changePosition(position=[x,y,z])   
+
+    respost = resposta()
+    indice = 0 
     
     while True:               
 
         #Limpe sempre a tela
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT) 
+
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glEnable(GL_COLOR_MATERIAL)
 
         # Renderize a cada frame todos os cubos.
         for i in range(3):
@@ -69,8 +83,12 @@ def main():
        
         # Troca de buffers e habilidade de fechar a janela                         
         pygame.display.flip()
-        pygame.time.wait(2) #limitador da taxa de frames, para que o cubo só não gire na velocidade da luz 
+        pygame.time.wait(2) #limitador da taxa de frames, para que o cubo só não gire na velocidade da luz
 
+        glDisable(GL_LIGHT0)
+        glDisable(GL_LIGHTING)
+        glDisable(GL_COLOR_MATERIAL)
+        
 
         for event in pygame.event.get():
         #Controle do cubo com WASD 
@@ -111,6 +129,10 @@ def main():
                 if event.key == pygame.K_i:
                     nov_cubo = mov_D(cubo, reverse=True)
                     cubo = nov_cubo
+                if event.key == pygame.K_1:
+                    nov_cubo = respost[1][indice](cubo, reverse=respost[0][indice])
+                    cubo = nov_cubo
+                    indice += 1
                    
             if event.type == pygame.QUIT:                
                 pygame.quit()

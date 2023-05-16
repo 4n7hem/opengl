@@ -102,6 +102,16 @@ class Cube:
                 self.angulo = 0 #reinicie os valores
                 self.adicional = 0 
                 self.eixo = None
+        
+        cube_ambient = [0.2, 0.2, 0.2, 1.0]  # Example ambient material property
+        cube_diffuse = [0.8, 0.8, 0.8, 1.0]  # Example diffuse material property
+        cube_specular = [1.0, 1.0, 1.0, 1.0]  # Example specular material property
+
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, cube_ambient)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, cube_diffuse)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, cube_specular)
+        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 32.0)
+
                       
         glBegin(GL_QUADS) #Isso desenha as cores e vértices
         for i in range(6):
