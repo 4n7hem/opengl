@@ -7,7 +7,7 @@ from random import randint
 import math
 
 
-def rodar(cubo, pivo, angulo, eixo):
+def rodar(cubo, pivo, angulo, eixo, reverse=False):
     #a matriz para mexer o pivô para a origem
     trad_matriz = np.array([
         [1,0,0,-pivo[0]],
@@ -17,7 +17,10 @@ def rodar(cubo, pivo, angulo, eixo):
     ])
 
     #a matriz de rotação, dependendo do eixo
-    angulo = np.radians(angulo)
+    if reverse:
+        angulo = np.radians(-angulo)
+    else:
+        angulo = np.radians(angulo)
     match eixo:
         case 'x':
             rotacao = np.array([

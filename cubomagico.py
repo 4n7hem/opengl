@@ -85,22 +85,22 @@ def main():
                     glRotatef(15, 0, -1, 0)  # Gire para a esquerda
             # Eles giram em relação ao cubo, e não a camera.
                 if event.key == pygame.K_0:
-                    nov_cubo = mov_R(cubo)
+                    nov_cubo = mov_R(cubo, reverse=True)
                     cubo = nov_cubo
                 if event.key == pygame.K_9:
-                    nov_cubo = mov_L(cubo)
+                    nov_cubo = mov_L(cubo, reverse=True)
                     cubo = nov_cubo
                 if event.key == pygame.K_8:
                    nov_cubo = mov_F(cubo)
                    cubo = nov_cubo
                 if event.key == pygame.K_7:
-                   nov_cubo = mov_B(cubo)
+                   nov_cubo = mov_B(cubo, reverse=True)
                    cubo = nov_cubo
                 if event.key == pygame.K_6:
-                   nov_cubo = mov_D(cubo)
+                   nov_cubo = mov_D(cubo, reverse=True)
                    cubo = nov_cubo
                 if event.key == pygame.K_5:
-                   nov_cubo = mov_U(cubo)
+                   nov_cubo = mov_U(cubo, reverse=True)
                    cubo = nov_cubo
             if event.type == pygame.QUIT:                
                 pygame.quit()

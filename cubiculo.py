@@ -77,7 +77,10 @@ class Cube:
         glTranslatef(self.position[0], self.position[1], self.position[2])
         #Caso o cubo esteja girando, aplicar transformações de rotação a cada frame
         if self.girando:
-            self.angulo = self.angulo + self.adicional
+            if self.sentido == 'reverse':            
+                self.angulo = self.angulo - self.adicional
+            else:
+                self.angulo = self.angulo + self.adicional          
             #Esse match é uma animação que gira os cubos em torno de si, deixa mais suave
             match self.eixo:
                 case 'x':
@@ -86,11 +89,14 @@ class Cube:
                     glRotate(self.angulo, 0, 1, 0)
                 case 'z':
                     glRotate(self.angulo, 0, 0, 1)
-            #O que realmente muda as coordenadas do cubo no plano            
-            rodar(self,self.pivot, self.adicional, self.eixo)            
+            #O que realmente muda as coordenadas do cubo no plano
+            if self.sentido == 'reverse':           
+                rodar(self,self.pivot, self.adicional, self.eixo, reverse=True) 
+            else:
+                rodar(self,self.pivot, self.adicional, self.eixo)           
             pygame.time.wait(10)
             #Quando o movimento tiver alcançado 90 graus
-            if self.angulo >= 90:  
+            if self.angulo >= 90 or self.angulo <= -90:  
                 trocaVertices(self)              
                 self.girando = False #pare de girar
                 self.angulo = 0 #reinicie os valores
