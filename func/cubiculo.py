@@ -5,13 +5,14 @@ import pygame
 from pygame.locals import *
 from random import randint
 import math
-from girarPosicao import rodar, trocaVertices
+from func.girarPosicao import rodar, trocaVertices
 
 class Cube:
-    def __init__(self, position, colors):
+    def __init__(self, position, colors, program):
         self.position = position
         self.colors = np.array(colors)
         self.sentido = None
+        self.program = program
         self.girando = False
         self.eixo = None
         self.pivot = None
@@ -72,6 +73,17 @@ class Cube:
         print("Posição:" + str(self.position))
         print("Eixo:" + self.eixo)
 
+    def configure_material(self):
+        cube_ambient = [0.1, 0.1, 0.1, 1.0]    # Ambient material property
+        cube_specular = [1.0, 1.0, 1.0, 0.0]   # Specular material property
+
+        for i in range(6):
+            cube_diffuse = self.colors[i]       # Diffuse material property per face
+            
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, cube_specular)
+            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128.0)
+        
+
     def draw(self):
         glPushMatrix()
         glTranslatef(self.position[0], self.position[1], self.position[2])
@@ -101,22 +113,23 @@ class Cube:
                 self.girando = False #pare de girar
                 self.angulo = 0 #reinicie os valores
                 self.adicional = 0 
-                self.eixo = None
-        
-        cube_ambient = [0.2, 0.2, 0.2, 1.0]  # Example ambient material property
-        cube_diffuse = [0.8, 0.8, 0.8, 1.0]  # Example diffuse material property
-        cube_specular = [1.0, 1.0, 1.0, 1.0]  # Example specular material property
+                self.eixo = None  
 
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, cube_ambient)
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, cube_diffuse)
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, cube_specular)
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 32.0)
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glEnable(GL_COLOR_MATERIAL)
 
-                      
+        glUseProgram(self.program)
+
         glBegin(GL_QUADS) #Isso desenha as cores e vértices
         for i in range(6):
             glColor3f(*self.colors[i])
             for j in range(4):
-                glVertex3f(*self.vertices[i*4+j])
+                glVertex3f(*self.vertices[i*4+j]) 
         glEnd()
+
+        glDisable(GL_LIGHT0)
+        glDisable(GL_LIGHTING)
+        glDisable(GL_COLOR_MATERIAL)
+
         glPopMatrix()

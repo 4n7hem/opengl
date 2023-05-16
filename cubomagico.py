@@ -2,12 +2,13 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from OpenGL.GL.shaders import *
 import numpy as np
-from cubiculo import Cube
-from cores import cuboSolucionavel
+from func.cubiculo import Cube
+from auxiliar.cores import cuboSolucionavel
 import logging
-from rotacoes import *
-from solucionar import resposta
+from func.rotacoes import *
+from auxiliar.solucionar import resposta
 
 logging.basicConfig(level=logging.DEBUG) #talvez eu use isso depois
   
@@ -16,6 +17,13 @@ def main():
     display = (800,600) # Tamanho da janela
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL) #Use o OpenGL
     pygame.display.set_caption('Rubiks Cube')
+
+    vertex_shader = open("./vertex_shader.txt", "r").read()
+    fragment_shader = open("./fragment_shader.txt", "r").read()
+
+    program = compileProgram( 
+        compileShader(vertex_shader, GL_VERTEX_SHADER),
+        compileShader(fragment_shader, GL_FRAGMENT_SHADER))
 
     glClearColor(1, 1, 1, 0) #fundo branco
     glEnable(GL_DEPTH_TEST) #isso faz com que não seja visível todos os lados de um cubo.
@@ -29,8 +37,10 @@ def main():
     glMatrixMode(GL_MODELVIEW) # representação da câmera em si
     glTranslatef(0.0, 0.0, -5)
 
-    glLightfv(GL_LIGHT0, GL_POSITION, (5,5,5,0)) #Posição da luz
+    glLightfv(GL_LIGHT0, GL_POSITION, (25,25,25,0)) #Posição da luz
     glLightfv(GL_LIGHT0, GL_DIFFUSE, (1,1,1,0)) #Cor da luz
+    glLightfv(GL_LIGHT0, GL_AMBIENT, [0.4, 0.4, 0.4, 0.4])
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)    
 
     glEnable(GL_NORMALIZE) #Normalização das faces
     glShadeModel(GL_SMOOTH) #Smooth shading (sei o que faz não)
@@ -44,7 +54,7 @@ def main():
     for i in range(3):
         for j in range(3):
             for k in range(3):
-                novo_cubo = Cube(position=[i,j,k], colors=cores[9*k+3*i+j])  #crie o cubo 
+                novo_cubo = Cube(position=[i,j,k], colors=cores[9*k+3*i+j], program=program)  #crie o cubo 
                 novo_cubo.changeSize(size=cube_size) #defina o tamanho do cubo (em escala)
                 cubo[i][j][k] = novo_cubo      
 
@@ -70,24 +80,28 @@ def main():
         #Limpe sempre a tela
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT) 
 
-        glEnable(GL_LIGHTING)
-        glEnable(GL_LIGHT0)
-        glEnable(GL_COLOR_MATERIAL)
+        
+        
+        glBegin(GL_QUADS) #Um chão simples
+        glColor3f(0.5, 0.5, 0.5)  # Set floor color
+        glVertex3f(-55.0, -3.0, -55.0)  # Define floor vertices
+        glVertex3f(-55.0, -3.0, 55.0)
+        glVertex3f(55.0, -3.0, 55.0)
+        glVertex3f(55.0, -3.0, -55.0)
+        glEnd()
+
 
         # Renderize a cada frame todos os cubos.
         for i in range(3):
             for j in range(3):
                 for k in range(3): #Iterando entre os 27 cubos
-                    cube = cubo[k][i][j]                                  
+                    cube = cubo[k][i][j]  
+                    cube.configure_material()                                
                     cube.draw()
        
         # Troca de buffers e habilidade de fechar a janela                         
         pygame.display.flip()
-        pygame.time.wait(2) #limitador da taxa de frames, para que o cubo só não gire na velocidade da luz
-
-        glDisable(GL_LIGHT0)
-        glDisable(GL_LIGHTING)
-        glDisable(GL_COLOR_MATERIAL)
+        pygame.time.wait(2) #limitador da taxa de frames, para que o cubo só não gire na velocidade da luz     
         
 
         for event in pygame.event.get():

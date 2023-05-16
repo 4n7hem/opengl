@@ -1,6 +1,6 @@
 import numpy as np
 import pygame
-from rodarMatriz import *
+from func.rodarMatriz import *
 clock = pygame.time.Clock()
 
 #A ideia é o seguinte:
