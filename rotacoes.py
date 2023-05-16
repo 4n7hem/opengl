@@ -22,13 +22,13 @@ def mov_R(cubo, reverse=False):
             bloco.setAngulo(10)
             bloco.setPivo(bloco_meio)
             #Casos para caso o movimento seja horário ou antihorário
-            if reverse:
+            if not reverse:
                 bloco.setSentido('reverse')
             else:
                 bloco.setSentido('forward')
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
-    if reverse:
+    if not reverse:
         slice_nova = rodarCCWreverso(R_sides)
     else:
         slice_nova = rodarClockwise(R_sides)
@@ -75,13 +75,13 @@ def mov_F(cubo, reverse=False):
             bloco.setAngulo(10)
             bloco.setPivo(bloco_meio)
             #Casos para caso o movimento seja horário ou antihorário
-            if reverse:
+            if not reverse:
                 bloco.setSentido('reverse')
             else:
                 bloco.setSentido('forward')
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
-    if reverse:
+    if not reverse:
         slice_nova = rodarClockwisereverso(F_sides)
     else:
         slice_nova = rodarCCW(F_sides)
@@ -153,13 +153,13 @@ def mov_U(cubo, reverse=False):
             bloco.setAngulo(10)
             bloco.setPivo(bloco_meio)
             #Casos para caso o movimento seja horário ou antihorário
-            if reverse:
+            if not reverse:
                 bloco.setSentido('reverse')
             else:
                 bloco.setSentido('forward')
             bloco.girar()
     #após isso, substitua as posições dos blocos no cubo, para manter ordem de referencia
-    if reverse:
+    if not reverse:
         slice_nova = rodarCCWreverso(U_sides, caso_y=True)
     else:
         slice_nova = rodarClockwise(U_sides, caso_y=True)
