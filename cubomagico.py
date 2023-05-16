@@ -37,9 +37,9 @@ def main():
     glMatrixMode(GL_MODELVIEW) # representação da câmera em si
     glTranslatef(0.0, 0.0, -5)
 
-    glLightfv(GL_LIGHT0, GL_POSITION, (25,25,25,0)) #Posição da luz
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, (1,1,1,0)) #Cor da luz
-    glLightfv(GL_LIGHT0, GL_AMBIENT, [0.4, 0.4, 0.4, 0.4])
+    glLightfv(GL_LIGHT0, GL_POSITION, (0,10,0,0)) #Posição da luz
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, (1,1,1,1)) #Cor da luz
+    glLightfv(GL_LIGHT0, GL_AMBIENT, [0.7, 0.7, 0.7, 0.7])
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)    
 
     glEnable(GL_NORMALIZE) #Normalização das faces
@@ -78,16 +78,17 @@ def main():
     while True:               
 
         #Limpe sempre a tela
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT) 
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
+        glUseProgram(program)         
         
-        
-        glBegin(GL_QUADS) #Um chão simples
+        #Aqui eu desenho o chão da aplicação
+        glBegin(GL_QUADS)
         glColor3f(0.5, 0.5, 0.5)  # Set floor color
-        glVertex3f(-55.0, -3.0, -55.0)  # Define floor vertices
-        glVertex3f(-55.0, -3.0, 55.0)
-        glVertex3f(55.0, -3.0, 55.0)
-        glVertex3f(55.0, -3.0, -55.0)
+        glVertex3f(-55.0, -5.0, -55.0)  # Define floor vertices
+        glVertex3f(-55.0, -5.0, 55.0)
+        glVertex3f(55.0, -5.0, 55.0)
+        glVertex3f(55.0, -5.0, -55.0)
         glEnd()
 
 
@@ -116,6 +117,8 @@ def main():
                 if event.key == pygame.K_d:                    
                     glRotatef(15, 0, -1, 0)  # Gire para a esquerda
             # Eles giram em relação ao cubo, e não a camera.
+
+            #Keybind de movimentos para debug
                 if event.key == pygame.K_0:
                     nov_cubo = mov_R(cubo)
                     cubo = nov_cubo

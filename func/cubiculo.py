@@ -73,8 +73,7 @@ class Cube:
         print("Posição:" + str(self.position))
         print("Eixo:" + self.eixo)
 
-    def configure_material(self):
-        cube_ambient = [0.1, 0.1, 0.1, 1.0]    # Ambient material property
+    def configure_material(self):        
         cube_specular = [1.0, 1.0, 1.0, 0.0]   # Specular material property
 
         for i in range(6):
@@ -117,9 +116,9 @@ class Cube:
 
         glEnable(GL_LIGHTING)
         glEnable(GL_LIGHT0)
-        glEnable(GL_COLOR_MATERIAL)
+        glEnable(GL_COLOR_MATERIAL)       
 
-        glUseProgram(self.program)
+        
 
         glBegin(GL_QUADS) #Isso desenha as cores e vértices
         for i in range(6):
@@ -130,6 +129,6 @@ class Cube:
 
         glDisable(GL_LIGHT0)
         glDisable(GL_LIGHTING)
-        glDisable(GL_COLOR_MATERIAL)
+        glDisable(GL_COLOR_MATERIAL)        
 
         glPopMatrix()
