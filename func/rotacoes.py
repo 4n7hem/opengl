@@ -15,7 +15,7 @@ def mov_R(cubo, reverse=False):
     #Selecione todos os cubos relevantes ao movimento    
     R_sides = cubo[2, :, :]
     #O bloco do meio
-    bloco_meio = [0,0,0] 
+    bloco_meio = cubo[1][1][1].getPosition() 
     for linha in R_sides:        
         for bloco in linha:
             bloco.setEixo('x')
@@ -38,7 +38,7 @@ def mov_R(cubo, reverse=False):
 def mov_L(cubo, reverse=False):
     L_sides = cubo[0, :, :]
 
-    bloco_meio = [0,0,0]
+    bloco_meio = cubo[1][1][1].getPosition() 
 
     for linha in L_sides:        
         for bloco in linha:
@@ -67,7 +67,7 @@ def mov_M(cubo, reverse=False):
 def mov_F(cubo, reverse=False):
     F_sides = cubo[:, :, 2]
     #O bloco do meio
-    bloco_meio = [0,0,0]    
+    bloco_meio = cubo[1][1][1].getPosition()     
 
     for linha in F_sides:        
         for bloco in linha:
@@ -91,7 +91,7 @@ def mov_F(cubo, reverse=False):
 def mov_B(cubo, reverse=False):
     B_sides = cubo[:, :, 0]
     #O bloco do meio
-    bloco_meio = [0,0,0]    
+    bloco_meio = cubo[1][1][1].getPosition()     
 
     for linha in B_sides:        
         for bloco in linha:
@@ -120,7 +120,7 @@ def mov_S(cubo, reverse=False):
 def mov_D(cubo, reverse=False):
     D_sides = cubo[:, 0, :]
     #O bloco do meio
-    bloco_meio = [0,0,0]   
+    bloco_meio = cubo[1][1][1].getPosition()    
 
     for linha in D_sides:        
         for bloco in linha:
@@ -145,7 +145,7 @@ def mov_U(cubo, reverse=False):
     U_sides = cubo[:, 2, :]
     
     #O bloco do meio
-    bloco_meio = [0,0,0]    
+    bloco_meio = cubo[1][1][1].getPosition()     
 
     for linha in U_sides:        
         for bloco in linha:

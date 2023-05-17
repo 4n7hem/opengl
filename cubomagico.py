@@ -37,7 +37,7 @@ def main():
     glMatrixMode(GL_MODELVIEW) # representação da câmera em si
     glTranslatef(0.0, 0.0, -5)
 
-    glLightfv(GL_LIGHT0, GL_POSITION, (0,10,0,0)) #Posição da luz
+    glLightfv(GL_LIGHT0, GL_POSITION, (10,0,0,0)) #Posição da luz
     glLightfv(GL_LIGHT0, GL_DIFFUSE, (1,1,1,1)) #Cor da luz
     glLightfv(GL_LIGHT0, GL_AMBIENT, [0.7, 0.7, 0.7, 0.7])
     glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)    
