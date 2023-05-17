@@ -79,8 +79,8 @@ class Cube:
         for i in range(6):
             cube_diffuse = self.colors[i]       # Diffuse material property per face
             
-            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, cube_specular)
-            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128.0)
+            glMaterialfv(GL_FRONT, GL_SPECULAR, cube_specular)
+            glMaterialf(GL_FRONT, GL_SHININESS, 128.0)
         
 
     def draw(self):

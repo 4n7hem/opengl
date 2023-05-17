@@ -18,8 +18,8 @@ def main():
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL) #Use o OpenGL
     pygame.display.set_caption('Rubiks Cube')
 
-    vertex_shader = open("./vertex_shader.txt", "r").read()
-    fragment_shader = open("./fragment_shader.txt", "r").read()
+    vertex_shader = open("./shaders/vertex_shader.txt", "r").read()
+    fragment_shader = open("./shaders/fragment_shader.txt", "r").read()
 
     program = compileProgram( 
         compileShader(vertex_shader, GL_VERTEX_SHADER),
@@ -40,7 +40,7 @@ def main():
     glLightfv(GL_LIGHT0, GL_POSITION, (0,10,0,0)) #Posição da luz
     glLightfv(GL_LIGHT0, GL_DIFFUSE, (1,1,1,1)) #Cor da luz
     glLightfv(GL_LIGHT0, GL_AMBIENT, [0.7, 0.7, 0.7, 0.7])
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)    
+    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)    
 
     glEnable(GL_NORMALIZE) #Normalização das faces
     glShadeModel(GL_SMOOTH) #Smooth shading (sei o que faz não)
@@ -85,10 +85,10 @@ def main():
         #Aqui eu desenho o chão da aplicação
         glBegin(GL_QUADS)
         glColor3f(0.5, 0.5, 0.5)  # Set floor color
-        glVertex3f(-55.0, -5.0, -55.0)  # Define floor vertices
-        glVertex3f(-55.0, -5.0, 55.0)
-        glVertex3f(55.0, -5.0, 55.0)
-        glVertex3f(55.0, -5.0, -55.0)
+        glVertex3f(-999.0, -5.0, -999.0)  # Define floor vertices
+        glVertex3f(-999.0, -5.0, 999.0)
+        glVertex3f(999.0, -5.0, 999.0)
+        glVertex3f(999.0, -5.0, -999.0)
         glEnd()
 
 
