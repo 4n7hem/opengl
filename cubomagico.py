@@ -5,10 +5,12 @@ from OpenGL.GLU import *
 from OpenGL.GL.shaders import *
 import numpy as np
 from func.cubiculo import Cube
+from func.chao import Chao
 from auxiliar.cores import cuboSolucionavel
 import logging
 from func.rotacoes import *
 from auxiliar.solucionar import resposta
+
 
 logging.basicConfig(level=logging.DEBUG) #talvez eu use isso depois
   
@@ -24,24 +26,40 @@ def main():
     program = compileProgram( 
         compileShader(vertex_shader, GL_VERTEX_SHADER),
         compileShader(fragment_shader, GL_FRAGMENT_SHADER))
+    
+    sombra_vertex = open("./shaders/shadowMap_vertex.txt", "r").read()
+    sombra_frag = open("./shaders/shadowMap_fragment.txt", "r").read()
+    
+    sombra = compileProgram( 
+        compileShader(sombra_vertex , GL_VERTEX_SHADER),
+        compileShader(sombra_frag , GL_FRAGMENT_SHADER))    
 
     glClearColor(1, 1, 1, 0) #fundo branco
     glEnable(GL_DEPTH_TEST) #isso faz com que não seja visível todos os lados de um cubo.
                             # caso seja comentado, alguns lados renderizarão o lado de dentro dos cubos por cima do de fora
 
-    glDepthFunc(GL_LESS) #função de comparação de profundidade (estudar mais depois)
+    #glDepthFunc(GL_LESS) #função de comparação de profundidade (estudar mais depois)
+
+    pos_Luz = [0,3,0]
+
+    glLightfv(GL_LIGHT0, GL_POSITION, pos_Luz ) #Posição da luz
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5,0.5,0.5)) #Cor da luz
+    glLightfv(GL_LIGHT0, GL_AMBIENT, (0.1, 0.1, 0.1))
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (1,1,1))
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100)
+    glLightfv(GL_LIGHT0, GL_CONSTANT_ATTENUATION, (0.8,0.8,0.8))
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)  
+    glLightModeliv(GL_LIGHT_MODEL_TWO_SIDE, 1) 
 
     glMatrixMode(GL_PROJECTION) # representação da lente da câmera
+    glLoadIdentity()
     gluPerspective(45, (display[0]/display[1]), 0.5, 40.0) #Perspectiva
    
     glMatrixMode(GL_MODELVIEW) # representação da câmera em si
-    glTranslatef(0.0, 0.0, -5)
+    glLoadIdentity()
+    glTranslatef(0.0, 0.0, -5) 
 
-    glLightfv(GL_LIGHT0, GL_POSITION, (10,0,0,0)) #Posição da luz
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, (1,1,1,1)) #Cor da luz
-    glLightfv(GL_LIGHT0, GL_AMBIENT, [0.7, 0.7, 0.7, 0.7])
-    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)    
-
+    
     glEnable(GL_NORMALIZE) #Normalização das faces
     glShadeModel(GL_SMOOTH) #Smooth shading (sei o que faz não)
 
@@ -74,36 +92,11 @@ def main():
 
     respost = resposta()
     indice = 0 
+
+    #Inicialize o chão
+    chao = Chao()
     
-    while True:               
-
-        #Limpe sempre a tela
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-
-        glUseProgram(program)         
-        
-        #Aqui eu desenho o chão da aplicação
-        glBegin(GL_QUADS)
-        glColor3f(0.5, 0.5, 0.5)  # Set floor color
-        glVertex3f(-999.0, -5.0, -999.0)  # Define floor vertices
-        glVertex3f(-999.0, -5.0, 999.0)
-        glVertex3f(999.0, -5.0, 999.0)
-        glVertex3f(999.0, -5.0, -999.0)
-        glEnd()
-
-
-        # Renderize a cada frame todos os cubos.
-        for i in range(3):
-            for j in range(3):
-                for k in range(3): #Iterando entre os 27 cubos
-                    cube = cubo[k][i][j]  
-                    cube.configure_material()                                
-                    cube.draw()
-       
-        # Troca de buffers e habilidade de fechar a janela                         
-        pygame.display.flip()
-        pygame.time.wait(2) #limitador da taxa de frames, para que o cubo só não gire na velocidade da luz     
-        
+    while True:
 
         for event in pygame.event.get():
         #Controle do cubo com WASD 
@@ -117,7 +110,6 @@ def main():
                 if event.key == pygame.K_d:                    
                     glRotatef(15, 0, -1, 0)  # Gire para a esquerda
             # Eles giram em relação ao cubo, e não a camera.
-
             #Keybind de movimentos para debug
                 if event.key == pygame.K_0:
                     nov_cubo = mov_R(cubo)
@@ -153,8 +145,42 @@ def main():
                    
             if event.type == pygame.QUIT:                
                 pygame.quit()
-                quit()
+                quit()               
 
+        #Limpe sempre a tela
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+
+        glUseProgram(program)
+
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glEnable(GL_COLOR_MATERIAL)
+
+        #Esfera de debug
+        sphere = gluNewQuadric() #Create new sphere
+        glPushMatrix()
+        glTranslatef(pos_Luz[0],pos_Luz[1],pos_Luz[2]) #Move to the place
+        glColor4f(0.5, 0.2, 0.2, 1) #Put color
+        gluSphere(sphere, 0.1, 20, 20) #Draw sphere
+        glPopMatrix()
+
+        # Renderize a cada frame todos os cubos.
+        for i in range(3):
+            for j in range(3):
+                for k in range(3): #Iterando entre os 27 cubos
+                    cube = cubo[k][i][j]                                                    
+                    cube.draw()
+        
+        #Desenhe o chão
+        chao.draw()
+
+        glDisable(GL_LIGHT0)
+        #glDisable(GL_LIGHTING)
+        glDisable(GL_COLOR_MATERIAL)
+        glFlush()
+        # Troca de buffers e habilidade de fechar a janela                         
+        pygame.display.flip()
+        pygame.time.wait(2) #limitador da taxa de frames, para que o cubo só não gire na velocidade da luz     
 main()      
 
         

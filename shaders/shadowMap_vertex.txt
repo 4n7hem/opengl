@@ -1,0 +1,10 @@
+uniform mat4 camMatrix;
+uniform mat4 shadowMatrix;
+varying vec4 depthProjection;
+uniform bool useShadow;
+
+void main() {
+    gl_Position = camMatrix * gl_ModelViewMatrix * gl_Vertex;
+    depthProjection = shadowMatrix * gl_ModelViewMatrix * gl_Vertex;
+    gl_FrontColor = gl_Color;
+}

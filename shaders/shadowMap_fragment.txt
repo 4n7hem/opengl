@@ -1,0 +1,16 @@
+varying vec4 depthProjection;
+uniform sampler2D shadowMap;
+uniform bool useShadow;
+
+void main () {
+    float shadow = 1.0;
+    if (useShadow) {
+        vec4 shadowCoord = depthProjection / depthProjection.w ;
+        // shadowCoord.z -= 0.0003;            
+        float distanceFromLight = texture2D(shadowMap, shadowCoord.st).z;                                
+        if (depthProjection .w > 0.0)
+            shadow = distanceFromLight < shadowCoord.z ? 0.5 : 1.0 ;            
+
+        }
+    gl_FragColor = shadow * gl_Color;
+    }

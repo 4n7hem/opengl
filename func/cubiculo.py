@@ -73,16 +73,6 @@ class Cube:
         print("Posição:" + str(self.position))
         print("Eixo:" + self.eixo)
 
-    def configure_material(self):        
-        cube_specular = [1.0, 1.0, 1.0, 0.0]   # Specular material property
-
-        for i in range(6):
-            cube_diffuse = self.colors[i]       # Diffuse material property per face
-            
-            glMaterialfv(GL_FRONT, GL_SPECULAR, cube_specular)
-            glMaterialf(GL_FRONT, GL_SHININESS, 128.0)
-        
-
     def draw(self):
         glPushMatrix()
         glTranslatef(self.position[0], self.position[1], self.position[2])
@@ -114,21 +104,11 @@ class Cube:
                 self.adicional = 0 
                 self.eixo = None  
 
-        glEnable(GL_LIGHTING)
-        glEnable(GL_LIGHT0)
-        glEnable(GL_COLOR_MATERIAL)       
-
-        
-
         glBegin(GL_QUADS) #Isso desenha as cores e vértices
         for i in range(6):
             glColor3f(*self.colors[i])
             for j in range(4):
                 glVertex3f(*self.vertices[i*4+j]) 
         glEnd()
-
-        glDisable(GL_LIGHT0)
-        glDisable(GL_LIGHTING)
-        glDisable(GL_COLOR_MATERIAL)        
 
         glPopMatrix()
