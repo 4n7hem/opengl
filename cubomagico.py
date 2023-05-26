@@ -43,11 +43,11 @@ def main():
     pos_Luz = [0,3,0]
 
     glLightfv(GL_LIGHT0, GL_POSITION, pos_Luz ) #Posição da luz
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5,0.5,0.5)) #Cor da luz
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.8,0.8,0.8)) #Cor da luz
     glLightfv(GL_LIGHT0, GL_AMBIENT, (0.1, 0.1, 0.1))
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (1,1,1))
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100)
-    glLightfv(GL_LIGHT0, GL_CONSTANT_ATTENUATION, (0.8,0.8,0.8))
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 5)
+    #glLightfv(GL_LIGHT0, GL_CONSTANT_ATTENUATION, (0.8,0.8,0.8))
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)  
     glLightModeliv(GL_LIGHT_MODEL_TWO_SIDE, 1) 
 
@@ -95,6 +95,7 @@ def main():
 
     #Inicialize o chão
     chao = Chao()
+    chao.carregar_padrao_quadriculado()
     
     while True:
 
@@ -150,7 +151,7 @@ def main():
         #Limpe sempre a tela
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
-        glUseProgram(program)
+        #glUseProgram(program)
 
         glEnable(GL_LIGHTING)
         glEnable(GL_LIGHT0)
@@ -171,13 +172,13 @@ def main():
                     cube = cubo[k][i][j]                                                    
                     cube.draw()
         
-        #Desenhe o chão
+        #Desenhe o chão        
         chao.draw()
 
         glDisable(GL_LIGHT0)
-        #glDisable(GL_LIGHTING)
+        glDisable(GL_LIGHTING)
         glDisable(GL_COLOR_MATERIAL)
-        glFlush()
+
         # Troca de buffers e habilidade de fechar a janela                         
         pygame.display.flip()
         pygame.time.wait(2) #limitador da taxa de frames, para que o cubo só não gire na velocidade da luz     
