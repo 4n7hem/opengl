@@ -8,6 +8,7 @@ from func.cubiculo import Cube
 from func.cubo import Cubo
 from func.chao import Chao
 from func.camera import Camera
+from func.luz import Luz
 from auxiliar.cores import cuboSolucionavel
 import logging
 
@@ -39,29 +40,19 @@ def main():
     glClearColor(.4, .7, 1, 0) #fundo azul
     glEnable(GL_DEPTH_TEST) #isso faz com que não seja visível todos os lados de um cubo.
                             # caso seja comentado, alguns lados renderizarão o lado de dentro dos cubos por cima do de fora
-
-    #glDepthFunc(GL_LESS) #função de comparação de profundidade (estudar mais depois)
-
-    pos_Luz = [0,3,0]
-    
-    #glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)  
-    #glLightModeliv(GL_LIGHT_MODEL_TWO_SIDE, 1) 
-
+  
     glMatrixMode(GL_PROJECTION) # representação da lente da câmera    
     gluPerspective(45, (display[0]/display[1]), 0.5, 40.0) #Perspectiva
    
     glMatrixMode(GL_MODELVIEW) # representação da câmera em si    
-    glTranslatef(0.0, 0.0, -5)
-    
-    glEnable(GL_NORMALIZE) #Normalização das faces
-    glShadeModel(GL_SMOOTH) #Smooth shading (sei o que faz não)
+    glTranslatef(0.0, 0.0, -5)    
+
 
     #Inicialize o Cubo 
     rubik_cube = Cubo() 
 
     #A resposta estática do cubo padrão
-    respost = resposta()
-     
+    respost = resposta()     
 
     #Inicialize o chão
     chao = Chao()
@@ -69,6 +60,13 @@ def main():
 
     #Inicialize a camera
     camera = Camera()
+
+    #Inicialização da luz
+    pos_Luz = [0.0,2.0,0.0,0.5]
+    luz = Luz(pos_Luz)
+    
+    luz.configurar_luz()
+    
 
     while True:
 
@@ -78,24 +76,28 @@ def main():
         #Limpe sempre a tela
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
-
         #Ligue a luz e as cores de materiais
-        glEnable(GL_LIGHTING)      
+                        
         glEnable(GL_COLOR_MATERIAL)
+        luz.ligar_luz()
 
         #Esfera de debug
         sphere = gluNewQuadric() #Create new sphere
         glPushMatrix()
         glTranslatef(pos_Luz[0],pos_Luz[1],pos_Luz[2]) #Move to the place
-        glColor4f(0.5, 0.2, 0.2, 1) #Put color
+        glColor3f(0.5, 0.2, 0.2) #Put color
         gluSphere(sphere, 0.1, 20, 20) #Draw sphere
-        glPopMatrix()
+        glPopMatrix()        
 
         # Renderize a cada frame todos os cubos.
+        
         rubik_cube.desenharCubo()
         
-        #Desenhe o chão        
+        
+        #Desenhe o chão
+                  
         chao.draw()
+        luz.desligar_luz()
 
         # Troca de buffers e habilidade de fechar a janela                         
         pygame.display.flip()
