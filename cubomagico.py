@@ -23,19 +23,13 @@ def main():
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL) #Use o OpenGL
     pygame.display.set_caption('Rubiks Cube')
 
-    vertex_shader = open("./shaders/vertex_shader.txt", "r").read()
-    fragment_shader = open("./shaders/fragment_shader.txt", "r").read()
+    #vertex_shader = open("./shaders/vertex_shader.txt", "r").read()
+    #fragment_shader = open("./shaders/fragment_shader.txt", "r").read()
 
-    program = compileProgram( 
-        compileShader(vertex_shader, GL_VERTEX_SHADER),
-        compileShader(fragment_shader, GL_FRAGMENT_SHADER))
+    #program = compileProgram( 
+    #    compileShader(vertex_shader, GL_VERTEX_SHADER),
+    #    compileShader(fragment_shader, GL_FRAGMENT_SHADER))   
     
-    sombra_vertex = open("./shaders/shadowMap_vertex.txt", "r").read()
-    sombra_frag = open("./shaders/shadowMap_fragment.txt", "r").read()
-    
-    sombra = compileProgram( 
-        compileShader(sombra_vertex , GL_VERTEX_SHADER),
-        compileShader(sombra_frag , GL_FRAGMENT_SHADER))    
 
     glClearColor(.4, .7, 1, 0) #fundo azul
     glEnable(GL_DEPTH_TEST) #isso faz com que não seja visível todos os lados de um cubo.
@@ -62,7 +56,7 @@ def main():
     camera = Camera()
 
     #Inicialização da luz
-    pos_Luz = [0.0,2.0,0.0,0.5]
+    pos_Luz = [1.0,1.0,1.0,1.0]
     luz = Luz(pos_Luz)
     
     luz.configurar_luz()
@@ -76,18 +70,17 @@ def main():
         #Limpe sempre a tela
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
-        #Ligue a luz e as cores de materiais
-                        
-        glEnable(GL_COLOR_MATERIAL)
+        #Ligue a luz e as cores de materiais                        
+        glEnable(GL_COLOR_MATERIAL)        
         luz.ligar_luz()
 
         #Esfera de debug
-        sphere = gluNewQuadric() #Create new sphere
-        glPushMatrix()
-        glTranslatef(pos_Luz[0],pos_Luz[1],pos_Luz[2]) #Move to the place
-        glColor3f(0.5, 0.2, 0.2) #Put color
-        gluSphere(sphere, 0.1, 20, 20) #Draw sphere
-        glPopMatrix()        
+        #sphere = gluNewQuadric() #Create new sphere
+        #glPushMatrix()
+        #glTranslatef(pos_Luz[0],pos_Luz[1],pos_Luz[2]) #Move to the place
+        #glColor3f(0.5, 0.2, 0.2) #Put color
+        #gluSphere(sphere, 0.1, 20, 20) #Draw sphere
+        #glPopMatrix()        
 
         # Renderize a cada frame todos os cubos.
         
