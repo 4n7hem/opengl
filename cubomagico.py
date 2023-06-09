@@ -7,6 +7,7 @@ import numpy as np
 from func.cubiculo import Cube
 from func.cubo import Cubo
 from func.chao import Chao
+from func.skybox_old import Skybox
 from func.camera import Camera
 from func.luz import Luz
 from auxiliar.cores import cuboSolucionavel
@@ -31,12 +32,12 @@ def main():
     #    compileShader(fragment_shader, GL_FRAGMENT_SHADER))   
     
 
-    glClearColor(.4, .7, 1, 0) #fundo azul
+    #glClearColor(.4, .7, 1, 0) #fundo azul
     glEnable(GL_DEPTH_TEST) #isso faz com que não seja visível todos os lados de um cubo.
                             # caso seja comentado, alguns lados renderizarão o lado de dentro dos cubos por cima do de fora
   
     glMatrixMode(GL_PROJECTION) # representação da lente da câmera    
-    gluPerspective(45, (display[0]/display[1]), 0.5, 40.0) #Perspectiva
+    gluPerspective(45, (display[0]/display[1]), 0.1, 50.0) #Perspectiva
    
     glMatrixMode(GL_MODELVIEW) # representação da câmera em si    
     glTranslatef(0.0, 0.0, -5)    
@@ -61,14 +62,20 @@ def main():
     
     luz.configurar_luz()
     
+    skybox = Skybox()
 
     while True:
 
-        #Rodar a camera conforme teclas são apertadas
-        camera.checar_teclas_pressionadas(rubik_cube.cubo, respost)
-
-        #Limpe sempre a tela
+        #Limpe sempre a tela        
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+
+        glEnable(GL_TEXTURE_GEN_S)
+        glEnable(GL_TEXTURE_GEN_T)
+        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP)
+        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP)
+
+        #Rodar a camera conforme teclas são apertadas
+        camera.checar_teclas_pressionadas(rubik_cube.cubo, respost)        
 
         #Ligue a luz e as cores de materiais                        
         glEnable(GL_COLOR_MATERIAL)        
@@ -81,6 +88,8 @@ def main():
         #glColor3f(0.5, 0.2, 0.2) #Put color
         #gluSphere(sphere, 0.1, 20, 20) #Draw sphere
         #glPopMatrix()        
+        
+        #skybox.draw()
 
         # Renderize a cada frame todos os cubos.
         
@@ -90,6 +99,7 @@ def main():
         #Desenhe o chão
                   
         chao.draw()
+        
         luz.desligar_luz()
 
         # Troca de buffers e habilidade de fechar a janela                         
