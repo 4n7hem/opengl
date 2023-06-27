@@ -39,4 +39,4 @@ while True:
     skybox.draw()
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(60) #Limita a taxa de framerate a 60 frames por segundo

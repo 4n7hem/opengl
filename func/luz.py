@@ -2,7 +2,6 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GL.shaders import *
 
-
 class Luz():
 
     def __init__(self, pos):
@@ -16,7 +15,7 @@ class Luz():
         glLightfv(GL_LIGHT1, GL_AMBIENT, (0.2, 0.2, 0.2)) # Luz ambiente
         glLightfv(GL_LIGHT1, GL_DIFFUSE, (0.8,0.8,0.8)) #Luz difusa 
 
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (1,1,1))
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (1,1,1)) # Luz especular
         glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128)
 
         pass

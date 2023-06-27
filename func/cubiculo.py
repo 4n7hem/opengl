@@ -81,7 +81,7 @@ class Cube:
                 self.angulo = self.angulo - self.adicional
             else:
                 self.angulo = self.angulo + self.adicional          
-            #Esse match é uma animação que gira os cubos em torno de si, deixa mais suave
+            #Esse match é uma animação que gira os cubos em torno de si
             match self.eixo:
                 case 'x':
                     glRotate(self.angulo, 1, 0, 0)

@@ -1,10 +1,12 @@
-varying vec3 vN;
-varying vec3 v;
-varying vec4 color;
-void main(void)  
-{     
-   v = vec3(gl_ModelViewMatrix * gl_Vertex);       
-   vN = normalize(gl_NormalMatrix * gl_Normal);
-   color = gl_Color;
-   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;  
+varying vec3 v;      // Posição do vértice
+varying vec3 vN;     // Vetor Normal 
+varying vec4 color;  // Cor
+
+void main(void)
+{
+   v = vec3(gl_ModelViewMatrix * gl_Vertex);  // Transforma as posições de vértice para espaço de mundo
+   vN = normalize(gl_NormalMatrix * gl_Normal);  // Transforma a normal para espaço de mundo e normaliza
+   color = gl_Color;  // Atribuição de cor
+
+   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;  // Transformação para coordenadas de recorte
 }
