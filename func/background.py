@@ -4,7 +4,7 @@ from OpenGL.GLU import *
 from PIL import Image
 
 class Background:
-    def __init__(self, image_path, width, height):
+    def __init__(self, image_path):
         # Load the image
         image = Image.open(image_path)
         image_data = image.convert("RGBA").tobytes()

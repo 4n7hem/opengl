@@ -66,6 +66,8 @@ def main():
     
     luz.configurar_luz()
 
+    #background = Background(".\\textures\\front.png")
+
     while True:
 
         #Limpe sempre a tela        
@@ -79,7 +81,9 @@ def main():
         #glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP)
 
         #Rodar a camera conforme teclas são apertadas
-        camera.checar_teclas_pressionadas(rubik_cube.cubo, respost)        
+        camera.checar_teclas_pressionadas(rubik_cube.cubo, respost)  
+
+        #background.draw()      
 
         #Ligue a luz e as cores de materiais                        
                
